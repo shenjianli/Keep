@@ -3,10 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/white_shape_round_corner_bg">
+    android:background="@drawable/white_shape_round_corner_bg"
+    android:padding="25dp">
+
     <TextView
+        android:id="@+id/dialog_hint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="13556jdafd"/>
+        android:layout_centerHorizontal="true"
+        android:text="成功在于坚持，坚持才能胜利，确定要停止坚持么？"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/dialog_continue_btn"
+        android:layout_below="@id/dialog_hint_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="继续"/>
+
+    <Button
+        android:id="@+id/dialog_stop_btn"
+        android:layout_below="@id/dialog_continue_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="停止"/>
 
 </RelativeLayout>

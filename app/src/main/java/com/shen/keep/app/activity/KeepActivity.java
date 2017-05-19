@@ -12,7 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.shen.keep.R;
+import com.shen.keep.app.KeepApp;
+import com.shen.keep.app.db.KeepDao;
+import com.shen.keep.core.LogUtils;
 import com.shen.keep.core.SharedPreUtil;
+import com.shen.keep.model.Keep;
 
 import java.lang.ref.WeakReference;
 import java.util.Timer;
@@ -89,10 +93,7 @@ public class KeepActivity extends AppCompatActivity{
 
         switch (view.getId()) {
             case R.id.continue_btn:
-                isPause = false;
-                continueBtn.setVisibility(View.GONE);
-                stopBtn.setVisibility(View.GONE);
-                pauseBtn.setVisibility(View.VISIBLE);
+                continueKeep();
 
                 break;
             case R.id.pause_btn:
@@ -104,49 +105,75 @@ public class KeepActivity extends AppCompatActivity{
                 break;
             case R.id.stop_btn:
                 showStopDialog();
-//                long start_time = SharedPreUtil.get(this, "start_time", 0L);
-//                long currTime = System.currentTimeMillis();
-//                String startDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(start_time));
-//                String stopDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(currTime));
-//
-//                long pauseTime = (currTime - start_time)/1000 - startTime;
-//
-//                Keep keep = new Keep();
-//                KeepDao keepDao = KeepApp.getAppInstance().getDaoSession().getKeepDao();
-//
-//                if(null != keepDao){
-//                    keep.setKeepName("");
-//                    keep.setKeepTime(getTimerStrByCount(startTime));
-//                    keep.setStartTime(start_time);
-//                    keep.setStopTime(currTime);
-//                    keep.setStartDate(startDate);
-//                    keep.setStopDate(stopDate);
-//                    keep.setPauseTime(getTimerStrByCount(pauseTime));
-//                    keepDao.insert(keep);
-//                    LogUtils.i("保存坚持时间" + keep.toString());
-//                }
-//                isPause = true;
-//                startTime = 0L;
-//                SharedPreUtil.put(this,"start_cnt", 0L);
-//                SharedPreUtil.put(this,"exit_time", 0L);
-//                if(null != timer){
-//                    timer.cancel();
-//                }
-//                finish();
                 break;
         }
     }
+
+    private void continueKeep() {
+        isPause = false;
+        continueBtn.setVisibility(View.GONE);
+        stopBtn.setVisibility(View.GONE);
+        pauseBtn.setVisibility(View.VISIBLE);
+    }
+
 
     private void showStopDialog() {
 
         LayoutInflater inflater = LayoutInflater.from(this) ;
 
         View view = inflater.inflate(R.layout.dialog_stop_layout, null) ;
+        view.findViewById(R.id.dialog_continue_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                continueKeep();
+            }
+        });
+        view.findViewById(R.id.dialog_stop_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveKeepInfo();
+            }
+        });
+
         AlertDialog stopDialog  = new AlertDialog.Builder(this)
                 .setView(view).create();
         stopDialog.show();
+        stopDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+
     }
 
+
+    private void saveKeepInfo(){
+        long start_time = SharedPreUtil.get(this, "start_time", 0L);
+        long currTime = System.currentTimeMillis();
+        String startDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(start_time));
+        String stopDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(currTime));
+
+        long pauseTime = (currTime - start_time)/1000 - startTime;
+
+        Keep keep = new Keep();
+        KeepDao keepDao = KeepApp.getAppInstance().getDaoSession().getKeepDao();
+
+        if(null != keepDao){
+            keep.setKeepName("");
+            keep.setKeepTime(getTimerStrByCount(startTime));
+            keep.setStartTime(start_time);
+            keep.setStopTime(currTime);
+            keep.setStartDate(startDate);
+            keep.setStopDate(stopDate);
+            keep.setPauseTime(getTimerStrByCount(pauseTime));
+            keepDao.insert(keep);
+            LogUtils.i("保存坚持时间" + keep.toString());
+        }
+        isPause = true;
+        startTime = 0L;
+        SharedPreUtil.put(this,"start_cnt", 0L);
+        SharedPreUtil.put(this,"exit_time", 0L);
+        if(null != timer){
+            timer.cancel();
+        }
+        finish();
+    }
 
     private  Timer timer = new Timer();
     private TimerHandler handler = new TimerHandler(this);
