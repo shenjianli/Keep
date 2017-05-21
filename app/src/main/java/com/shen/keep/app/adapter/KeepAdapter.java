@@ -1,8 +1,11 @@
 package com.shen.keep.app.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
+import com.shen.keep.R;
 import com.shen.keep.app.holder.KeepHolder;
 import com.shen.keep.core.BaseAdapter;
 import com.shen.keep.model.Keep;
@@ -29,12 +32,30 @@ public class KeepAdapter extends BaseAdapter<Keep,KeepHolder>{
 
     @Override
     public KeepHolder createCustomViewHolder(ViewGroup parent, int viewType) {
-        return new KeepHolder(parent);
+        return new KeepHolder(parent, R.layout.item_keep_layout);
     }
 
     @Override
     public void bindCustomViewHolder(KeepHolder holder, int position) {
         Keep keep = getItem(position);
+        if(null != keep){
+            if(null != holder){
+                holder.mKeepNumTv.setText(String.valueOf(position + 1));
+                if(position % 2 == 0){
+                    holder.mKeepItemLayout.setBackgroundColor(Color.RED);
+                }
+                else {
+                    holder.mKeepItemLayout.setBackgroundColor(Color.GREEN);
+                }
+                String name = keep.getKeepName();
+                if(!TextUtils.isEmpty(name)){
+                    holder.mKeepItemTv.setText(keep.getKeepName());
+                }
+                holder.mKeepTimeTv.setText(keep.getKeepTime());
+                holder.mKeepStartTimeTv.setText(keep.getStartDate());
+                holder.mKeepStopTimeTv.setText(keep.getStopDate());
+            }
+        }
 
     }
 }

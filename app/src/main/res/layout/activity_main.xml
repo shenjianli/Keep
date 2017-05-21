@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="25dp">
 
-    <Button
-        android:id="@+id/test"
+    <TextView
+        android:id="@+id/keep_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="test" />
+        android:layout_centerInParent="true"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="不积跬步无以至千里，不积小流无以成江海！"/>
 
-    <Button
-        android:id="@+id/input"
-        android:layout_below="@id/test"
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="录入" />
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/start_keep_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="开始" />
+
+        <Button
+            android:id="@+id/query_keep_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="查询" />
+    </RelativeLayout>
+
 </RelativeLayout>

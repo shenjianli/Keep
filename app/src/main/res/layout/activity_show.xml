@@ -4,24 +4,31 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/show_layout"
+        android:id="@+id/show_keep_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:padding="10dp"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/show_keep_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="历史信息"/>
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/show_keep_info_srl"
-        android:layout_below="@id/show_layout"
+        android:layout_below="@id/show_keep_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/show_info_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
         </android.support.v7.widget.RecyclerView>
+
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="成功在于坚持，坚持才能胜利，确定要停止坚持么？"
+        android:gravity="center"
         android:textSize="20sp"/>
 
     <Button
@@ -19,7 +20,7 @@
         android:layout_below="@id/dialog_hint_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="45dp"
         android:text="继续"/>
 
     <Button

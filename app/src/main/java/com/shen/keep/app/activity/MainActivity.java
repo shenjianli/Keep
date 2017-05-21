@@ -19,10 +19,10 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
 
-    @Bind(R.id.test)
-    Button test;
-    @Bind(R.id.input)
-    Button input;
+    @Bind(R.id.query_keep_btn)
+    Button queryKeepBtn;
+    @Bind(R.id.start_keep_btn)
+    Button startKeepBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
     
-    @OnClick({R.id.test, R.id.input})
+    @OnClick({R.id.query_keep_btn, R.id.start_keep_btn})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.test:
+            case R.id.start_keep_btn:
                 Intent intent = new Intent(this, KeepActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.input:
+            case R.id.query_keep_btn:
                 //inputQuoteInfo();
                 queryKeepInfo();
                 break;
