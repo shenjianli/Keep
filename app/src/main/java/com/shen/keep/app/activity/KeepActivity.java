@@ -76,14 +76,24 @@ public class KeepActivity extends AppCompatActivity{
             SharedPreUtil.put(this,"exit_time", System.currentTimeMillis());
         }
 
+        if(null != stopDialog){
+            stopDialog.dismiss();
+            stopDialog = null;
+        }
+
         if(null != handler){
             handler.removeCallbacksAndMessages(null);
+            handler.clearTimer();
             handler = null;
         }
 
         if(null != timer){
             timer.cancel();
             timer = null;
+        }
+
+        if(null != timerTask){
+            timerTask = null;
         }
 
     }
@@ -117,28 +127,39 @@ public class KeepActivity extends AppCompatActivity{
     }
 
 
+    AlertDialog stopDialog;
     private void showStopDialog() {
 
         LayoutInflater inflater = LayoutInflater.from(this) ;
 
         View view = inflater.inflate(R.layout.dialog_stop_layout, null) ;
+
+
+        stopDialog  = new AlertDialog.Builder(this)
+                .setView(view).create();
         view.findViewById(R.id.dialog_continue_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 continueKeep();
+                stopDialog.dismiss();
+
             }
         });
+
         view.findViewById(R.id.dialog_stop_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveKeepInfo();
+                stopDialog.dismiss();
+                finish();
             }
         });
 
-        AlertDialog stopDialog  = new AlertDialog.Builder(this)
-                .setView(view).create();
+
         stopDialog.show();
         stopDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+
+
 
     }
 
@@ -172,7 +193,6 @@ public class KeepActivity extends AppCompatActivity{
         if(null != timer){
             timer.cancel();
         }
-        finish();
     }
 
     private  Timer timer = new Timer();
@@ -217,6 +237,11 @@ public class KeepActivity extends AppCompatActivity{
                     keepActivity.keepTime.setText(keepActivity.getTimerStrByCount(keepActivity.startTime));
                 }
             }
+        }
+
+        public void clearTimer(){
+            weakReference = null;
+            keepActivity = null;
         }
     }
 

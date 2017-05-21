@@ -8,14 +8,9 @@ import android.widget.Button;
 
 import com.shen.keep.R;
 import com.shen.keep.app.KeepApp;
-import com.shen.keep.app.db.KeepDao;
 import com.shen.keep.app.db.QuoteDao;
 import com.shen.keep.core.CustomToast;
-import com.shen.keep.core.LogUtils;
-import com.shen.keep.model.Keep;
 import com.shen.keep.model.Quote;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,15 +47,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void queryKeepInfo() {
-        KeepDao keepDao = KeepApp.getAppInstance().getDaoSession().getKeepDao();
-        if(null != keepDao){
-            List<Keep> keeps = keepDao.loadAll();
-            if(null != keeps && keeps.size() > 0){
-                for (Keep keep: keeps ) {
-                    LogUtils.i(keep.toString());
-                }
-            }
-        }
+        Intent intent = new Intent(this, ShowActivity.class);
+        startActivity(intent);
     }
 
     private void inputQuoteInfo() {

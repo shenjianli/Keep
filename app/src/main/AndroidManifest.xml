@@ -13,15 +13,21 @@
         <activity android:name=".app.activity.MainActivity">
 
         </activity>
+
         <activity android:name=".app.activity.KeepActivity">
 
         </activity>
+
         <activity android:name=".app.activity.QuoteActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".app.activity.ShowActivity">
+
         </activity>
 
     </application>
