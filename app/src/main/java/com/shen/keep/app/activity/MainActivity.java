@@ -5,12 +5,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.shen.keep.R;
 import com.shen.keep.app.KeepApp;
+import com.shen.keep.app.db.KeepDao;
 import com.shen.keep.app.db.QuoteDao;
 import com.shen.keep.core.CustomToast;
+import com.shen.keep.core.TimeUtils;
+import com.shen.keep.model.Keep;
 import com.shen.keep.model.Quote;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,15 +29,32 @@ public class MainActivity extends AppCompatActivity {
     Button queryKeepBtn;
     @Bind(R.id.start_keep_btn)
     Button startKeepBtn;
+    @Bind(R.id.keep_sum_time_tv)
+    TextView keepSumTimeTv;
+    @Bind(R.id.keep_name_tv)
+    TextView keepNameTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        queryKeepTime();
 
     }
-    
+
+    private void queryKeepTime() {
+        KeepDao keepDao = KeepApp.getAppInstance().getDaoSession().getKeepDao();
+        if (null != keepDao) {
+            List<Keep> keepList = keepDao.loadAll();
+            long keepTime = 0;
+            for (Keep keep : keepList) {
+                keepTime += keep.getKeepSecNum();
+            }
+            keepSumTimeTv.setText(TimeUtils.getTimerStrBySecNum(keepTime));
+        }
+    }
+
     @OnClick({R.id.query_keep_btn, R.id.start_keep_btn})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -52,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inputQuoteInfo() {
-        QuoteDao quoteDao= KeepApp.getAppInstance().getDaoSession().getQuoteDao();
-        if(null != quoteDao){
+        QuoteDao quoteDao = KeepApp.getAppInstance().getDaoSession().getQuoteDao();
+        if (null != quoteDao) {
             Quote quote = new Quote();
             quote.setTitle("撑起头顶的天");
             quote.setContent("我要养成这样的习惯： 我喜欢，驾驭着代码在风驰电掣中创造完美！我喜欢，操纵着代码在随心所欲中体验生活！我喜欢，书写着代码在时代浪潮中完成经典！每一段新的代码在我手中诞生对我来说就像观看刹那花开的感动！");
@@ -65,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             quote.setCountTime(10);
             quoteDao.insert(quote);
             quoteDao.insertWithoutSettingPk(quote);
-            CustomToast.show(this,"录入数据成功");
+            CustomToast.show(this, "录入数据成功");
         }
     }
 }

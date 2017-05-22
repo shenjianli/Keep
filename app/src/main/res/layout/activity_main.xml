@@ -4,6 +4,29 @@
     android:layout_height="match_parent"
     android:padding="25dp">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/keep_sum_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text=""/>
+        <TextView
+            android:id="@+id/keep_sum_time_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="总时长"/>
+    </LinearLayout>
+
+
     <TextView
         android:id="@+id/keep_name_tv"
         android:layout_width="wrap_content"
@@ -11,7 +34,7 @@
         android:layout_centerInParent="true"
         android:textSize="20sp"
         android:gravity="center"
-        android:text="不积跬步无以至千里，不积小流无以成江海！"/>
+        android:text="不积跬步,无以至千里，不积小流,无以成江海！"/>
 
 
     <RelativeLayout

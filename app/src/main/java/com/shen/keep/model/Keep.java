@@ -34,9 +34,13 @@ public class Keep {
     @Property(nameInDb = "pauseTime")
     private String pauseTime;
 
-    @Generated(hash = 499721659)
+    @Property(nameInDb = "keepSecNum")
+    private long keepSecNum;
+
+    @Generated(hash = 1414001843)
     public Keep(Long id, long startTime, long stopTime, String startDate,
-            String stopDate, String keepTime, String keepName, String pauseTime) {
+            String stopDate, String keepTime, String keepName, String pauseTime,
+            long keepSecNum) {
         this.id = id;
         this.startTime = startTime;
         this.stopTime = stopTime;
@@ -45,6 +49,7 @@ public class Keep {
         this.keepTime = keepTime;
         this.keepName = keepName;
         this.pauseTime = pauseTime;
+        this.keepSecNum = keepSecNum;
     }
 
     @Generated(hash = 1241091606)
@@ -127,5 +132,13 @@ public class Keep {
 
     public void setPauseTime(String pauseTime) {
         this.pauseTime = pauseTime;
+    }
+
+    public long getKeepSecNum() {
+        return this.keepSecNum;
+    }
+
+    public void setKeepSecNum(long keepSecNum) {
+        this.keepSecNum = keepSecNum;
     }
 }

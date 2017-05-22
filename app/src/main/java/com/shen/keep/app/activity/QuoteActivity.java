@@ -149,12 +149,14 @@ public class QuoteActivity extends AppCompatActivity implements CountTimer.Count
         if (null != flyMotivationalQuotesEnterTimeTv) {
             flyMotivationalQuotesEnterTimeTv.setText(second);
         }
+        if( TextUtils.equals("1",second)){
+            enterMainPage();
+        }
     }
 
     @Override
     public void countDownTimerFinish() {
         LogUtils.i("倒计时结束");
-        enterMainPage();
     }
 
     @Override

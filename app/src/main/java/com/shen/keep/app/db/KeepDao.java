@@ -32,6 +32,7 @@ public class KeepDao extends AbstractDao<Keep, Long> {
         public final static Property KeepTime = new Property(5, String.class, "keepTime", false, "keepTime");
         public final static Property KeepName = new Property(6, String.class, "keepName", false, "keepName");
         public final static Property PauseTime = new Property(7, String.class, "pauseTime", false, "pauseTime");
+        public final static Property KeepSecNum = new Property(8, long.class, "keepSecNum", false, "keepSecNum");
     }
 
 
@@ -54,7 +55,8 @@ public class KeepDao extends AbstractDao<Keep, Long> {
                 "\"stopDate\" TEXT," + // 4: stopDate
                 "\"keepTime\" TEXT," + // 5: keepTime
                 "\"keepName\" TEXT," + // 6: keepName
-                "\"pauseTime\" TEXT);"); // 7: pauseTime
+                "\"pauseTime\" TEXT," + // 7: pauseTime
+                "\"keepSecNum\" INTEGER NOT NULL );"); // 8: keepSecNum
     }
 
     /** Drops the underlying database table. */
@@ -98,6 +100,7 @@ public class KeepDao extends AbstractDao<Keep, Long> {
         if (pauseTime != null) {
             stmt.bindString(8, pauseTime);
         }
+        stmt.bindLong(9, entity.getKeepSecNum());
     }
 
     @Override
@@ -135,6 +138,7 @@ public class KeepDao extends AbstractDao<Keep, Long> {
         if (pauseTime != null) {
             stmt.bindString(8, pauseTime);
         }
+        stmt.bindLong(9, entity.getKeepSecNum());
     }
 
     @Override
@@ -152,7 +156,8 @@ public class KeepDao extends AbstractDao<Keep, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // stopDate
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // keepTime
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // keepName
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // pauseTime
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // pauseTime
+            cursor.getLong(offset + 8) // keepSecNum
         );
         return entity;
     }
@@ -167,6 +172,7 @@ public class KeepDao extends AbstractDao<Keep, Long> {
         entity.setKeepTime(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setKeepName(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setPauseTime(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setKeepSecNum(cursor.getLong(offset + 8));
      }
     
     @Override

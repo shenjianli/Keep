@@ -183,6 +183,7 @@ public class KeepActivity extends AppCompatActivity{
             keep.setStartDate(startDate);
             keep.setStopDate(stopDate);
             keep.setPauseTime(getTimerStrByCount(pauseTime));
+            keep.setKeepSecNum(startTime);
             keepDao.insert(keep);
             LogUtils.i("保存坚持时间" + keep.toString());
         }
