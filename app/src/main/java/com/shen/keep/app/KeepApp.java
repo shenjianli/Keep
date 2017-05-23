@@ -3,8 +3,16 @@ package com.shen.keep.app;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.shen.keep.BuildConfig;
+import com.shen.keep.R;
 import com.shen.keep.app.db.DaoMaster;
 import com.shen.keep.app.db.DaoSession;
+import com.shen.keep.core.LogUtils;
+import com.shen.netclient.NetClient;
+import com.shen.netclient.engine.NetClientLib;
+import com.shen.netclient.util.FileUtils;
 import com.squareup.leakcanary.LeakCanary;
 
 
@@ -23,8 +31,65 @@ public class KeepApp extends Application{
     public void onCreate() {
         super.onCreate();
         keepApp = this;
+        initNetClient();
+        initStetho();
         initMemLeak();
         initGreenDao();
+        initByGradleFile();
+    }
+
+    private void initNetClient() {
+        NetClientLib.getLibInstance().setMobileContext(this);
+    }
+
+    private void initStetho() {
+        Stetho.initializeWithDefaults(this);
+        NetClient.addNetworkInterceptor(new StethoInterceptor());
+    }
+
+    /*
+  根据主项目中的gradle配置文件开初始化不同的开发模式
+   */
+    private void initByGradleFile() {
+
+        if(Constants.TEST_MODE.equals(BuildConfig.MODE)){
+            NetClientLib.getLibInstance().setLogEnable(true);
+            NetClientLib.getLibInstance().setUrlConfigManager(R.xml.url);
+        }
+        else if(Constants.DEV_MODE.equals(BuildConfig.MODE))
+        {
+            NetClientLib.getLibInstance().setLogEnable(true);
+            NetClientLib.getLibInstance().setServerBaseUrl(BuildConfig.SERVER_URL);
+        }
+        else if(Constants.RELEASE_MODE.equals(BuildConfig.MODE)){
+            NetClientLib.getLibInstance().setLogEnable(false);
+            NetClientLib.getLibInstance().setServerBaseUrl(BuildConfig.SERVER_URL);
+        }
+    }
+
+
+    /*
+    根据Raw中的mobile配置文件来初始化开发模式
+     */
+    private void initByRawConfigFile() {
+        if(FileUtils.getProperties(this, R.raw.mobile)){
+            String mode = FileUtils.getPropertyValueByKey("mode");
+            String baseUrl = FileUtils.getPropertyValueByKey("baseUrl");
+            LogUtils.i("开发模式为：" + mode);
+            if(Constants.TEST_MODE.equals(mode)){
+                NetClientLib.getLibInstance().setLogEnable(true);
+                NetClientLib.getLibInstance().setUrlConfigManager(R.xml.url);
+            }
+            else if(Constants.DEV_MODE.equals(BuildConfig.MODE))
+            {
+                NetClientLib.getLibInstance().setLogEnable(true);
+                NetClientLib.getLibInstance().setServerBaseUrl(baseUrl);
+            }
+            else if(Constants.RELEASE_MODE.equals(BuildConfig.MODE)){
+                NetClientLib.getLibInstance().setLogEnable(false);
+                NetClientLib.getLibInstance().setServerBaseUrl(baseUrl);
+            }
+        }
     }
 
     private void initMemLeak() {

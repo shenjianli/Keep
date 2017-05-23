@@ -2,7 +2,9 @@ package com.shen.keep.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,17 +57,63 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(null != startDialog){
+            startDialog.dismiss();
+            startDialog = null;
+        }
+    }
+
     @OnClick({R.id.query_keep_btn, R.id.start_keep_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start_keep_btn:
-                Intent intent = new Intent(this, KeepActivity.class);
-                startActivity(intent);
+                showStartDialog();
                 break;
             case R.id.query_keep_btn:
                 //inputQuoteInfo();
                 queryKeepInfo();
                 break;
+        }
+    }
+
+
+    AlertDialog startDialog;
+    private void showStartDialog() {
+
+        LayoutInflater inflater = LayoutInflater.from(this) ;
+
+        View view = inflater.inflate(R.layout.dialog_start_layout, null) ;
+
+        startDialog = new AlertDialog.Builder(this)
+                .setView(view).create();
+
+        view.findViewById(R.id.dialog_start_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, KeepActivity.class);
+                startActivity(intent);
+                CustomToast.showLong(MainActivity.this,"人生在于积累，积累在于坚持！祝你成功！");
+                startDialog.dismiss();
+
+            }
+        });
+
+        view.findViewById(R.id.dialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomToast.showLong(MainActivity.this,"希望下次，你可以有一颗坚持之心");
+                startDialog.dismiss();
+            }
+        });
+
+
+        startDialog.show();
+        if(null != startDialog){
+            startDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         }
     }
 

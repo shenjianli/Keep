@@ -119,6 +119,9 @@ public class QuoteActivity extends AppCompatActivity implements CountTimer.Count
     }
 
     private void enterMainPage() {
+        if(null != countTimer){
+            countTimer.cancel();
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -139,6 +142,7 @@ public class QuoteActivity extends AppCompatActivity implements CountTimer.Count
 
         if (null != countTimer) {
             countTimer.setCountDownTimerListener(null);
+            countTimer.cancel();
             countTimer = null;
         }
     }

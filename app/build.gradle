@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "com.shen.keep"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0.1"
@@ -39,7 +39,39 @@ android {
         }
     }
 
+    productFlavors {
+        Dev{
+            applicationId "com.shen.keep"
+            manifestPlaceholders = [app_name:"开发版" ,icon: "@mipmap/ic_launcher",CHANNEL_VALUE:"Dev"]
+            //在java代码中具体的使用方式为：context.getResources().getString(R.string.strKey);
+            resValue("string" , "strKey","dev版本")
+            resValue ('string','isDebug','true')
+            buildConfigField "boolean", "AUTO_UPDATES", "false"
+            buildConfigField("String","MODE","\"dev\"")
+            buildConfigField("String","SERVER_URL","\"http://m.dev.shen.com.cn/\"")
+        }
+        DevTest{
+            applicationId "com.shen.keep"
+            manifestPlaceholders = [app_name:"自测版" ,icon: "@mipmap/ic_launcher",CHANNEL_VALUE:"Test"]
+            //在java代码中具体的使用方式为：context.getResources().getString(R.string.strKey);
+            resValue("string" , "strKey","beta版本")
+            resValue ('string','isDebug','true')
+            buildConfigField "boolean", "AUTO_UPDATES", "false"
+            buildConfigField("String","MODE","\"test\"")
+            //测试版本主要使用本地MockService来返回数据，可以不设置
+            buildConfigField("String","SERVER_URL","\"test\"")
 
+        }
+        Releases{
+            applicationId "com.shen.keep"
+            manifestPlaceholders = [app_name:"正式版" ,icon: "@mipmap/ic_launcher",CHANNEL_VALUE:"Releases"]
+            resValue("string" , "strKey","release版本")
+            resValue ('string','isDebug','false')
+            buildConfigField "boolean", "AUTO_UPDATES", "false"
+            buildConfigField("String","MODE","\"release\"")
+            buildConfigField("String","SERVER_URL","\"http://m.mall.shen.com.cn/\"")
+        }
+    }
 
     //修改生成的apk名字
     applicationVariants.all{
@@ -74,5 +106,12 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-
+    compile 'com.github.shenjianli.netclient:netclient:1.0.2'
+    compile ('io.reactivex:rxandroid:1.2.1'){
+        exclude module: 'rxjava'
+    }
+    compile 'com.facebook.stetho:stetho:1.4.2'
+    compile ('com.facebook.stetho:stetho-okhttp3:1.4.2'){
+        exclude module: 'okhttp'
+    }
 }
