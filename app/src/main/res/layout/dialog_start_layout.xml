@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white_shape_round_corner_bg"
+    android:padding="25dp">
+
+    <TextView
+        android:id="@+id/dialog_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="靡不有初，鲜克有终，确定要开始坚持么？"
+        android:gravity="center"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/dialog_start_btn"
+        android:layout_below="@id/dialog_hint_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="开始"/>
+
+    <Button
+        android:id="@+id/dialog_cancel_btn"
+        android:layout_below="@id/dialog_start_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="取消"/>
+
+</RelativeLayout>
