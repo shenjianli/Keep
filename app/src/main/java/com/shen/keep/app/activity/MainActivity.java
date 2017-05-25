@@ -14,6 +14,7 @@ import com.shen.keep.app.KeepApp;
 import com.shen.keep.app.db.KeepDao;
 import com.shen.keep.app.db.QuoteDao;
 import com.shen.keep.core.CustomToast;
+import com.shen.keep.core.SharedPreUtil;
 import com.shen.keep.core.TimeUtils;
 import com.shen.keep.model.Keep;
 import com.shen.keep.model.Quote;
@@ -25,7 +26,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-
 
     @Bind(R.id.query_keep_btn)
     Button queryKeepBtn;
@@ -41,8 +41,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initView();
         queryKeepTime();
 
+    }
+
+    /**
+     * 是否在没有提示情况下进入
+     */
+    private boolean isEnter = false;
+    private void initView() {
+        long startTime = SharedPreUtil.get(this, "start_cnt", 0L);
+        long exitTime = SharedPreUtil.get(this, "exit_time", 0L);
+        if( startTime > 0){
+            if(0 != exitTime){
+                startKeepBtn.setText("进入");
+                isEnter = true;
+            }
+        }
+        if(0 == startTime && 0 == exitTime){
+            startKeepBtn.setText("开始");
+            isEnter = false;
+        }
     }
 
     private void queryKeepTime() {
@@ -58,6 +78,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if(null != startDialog){
@@ -70,7 +101,12 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start_keep_btn:
-                showStartDialog();
+                if(isEnter){
+                    enterKeepPage();
+                }
+                else {
+                    showStartDialog();
+                }
                 break;
             case R.id.query_keep_btn:
                 //inputQuoteInfo();
@@ -93,9 +129,7 @@ public class MainActivity extends AppCompatActivity {
         view.findViewById(R.id.dialog_start_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, KeepActivity.class);
-                startActivity(intent);
+                enterKeepPage();
                 CustomToast.showLong(MainActivity.this,"人生在于积累，积累在于坚持！祝你成功！");
                 startDialog.dismiss();
 
@@ -115,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
         if(null != startDialog){
             startDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         }
+    }
+
+    private void enterKeepPage() {
+        Intent intent = new Intent(MainActivity.this, KeepActivity.class);
+        startActivity(intent);
     }
 
     private void queryKeepInfo() {

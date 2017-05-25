@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.shen.keep.R;
 import com.shen.keep.app.KeepApp;
 import com.shen.keep.app.db.KeepDao;
+import com.shen.keep.core.CustomToast;
 import com.shen.keep.core.LogUtils;
 import com.shen.keep.core.SharedPreUtil;
 import com.shen.keep.model.Keep;
@@ -104,7 +105,6 @@ public class KeepActivity extends AppCompatActivity{
         switch (view.getId()) {
             case R.id.continue_btn:
                 continueKeep();
-
                 break;
             case R.id.pause_btn:
                 isPause = true;
@@ -176,7 +176,7 @@ public class KeepActivity extends AppCompatActivity{
         KeepDao keepDao = KeepApp.getAppInstance().getDaoSession().getKeepDao();
 
         if(null != keepDao){
-            keep.setKeepName("");
+            keep.setKeepName("Keep");
             keep.setKeepTime(getTimerStrByCount(startTime));
             keep.setStartTime(start_time);
             keep.setStopTime(currTime);
@@ -278,4 +278,16 @@ public class KeepActivity extends AppCompatActivity{
         return  result.toString();
     }
 
+    @Override
+    public void onBackPressed() {
+        if(isPause){
+            saveKeepInfo();
+            CustomToast.show(this,"完成坚持活动，下次再来喽！");
+        }
+        else {
+            SharedPreUtil.put(this,"start_cnt", startTime);
+            SharedPreUtil.put(this,"exit_time", System.currentTimeMillis());
+        }
+        super.onBackPressed();
+    }
 }
