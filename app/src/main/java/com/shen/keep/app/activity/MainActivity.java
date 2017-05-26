@@ -131,9 +131,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 enterKeepPage();
-                CustomToast.showLong(MainActivity.this,"人生在于积累，积累在于坚持！祝你成功！");
+                CustomToast.show(MainActivity.this,"GO！祝你成功！");
                 startDialog.dismiss();
-
             }
         });
 

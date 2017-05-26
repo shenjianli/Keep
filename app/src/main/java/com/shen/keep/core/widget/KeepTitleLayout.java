@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +31,10 @@ public class KeepTitleLayout extends RelativeLayout {
     TextView keepTitleTv;
     @Bind(R.id.keep_title_right)
     ImageView keepTitleRight;
+    @Bind(R.id.left_title_layout)
+    FrameLayout leftTitleLayout;
+    @Bind(R.id.right_title_layout)
+    FrameLayout rightTitleLayout;
 
     public KeepTitleLayout(Context context) {
         super(context);
@@ -128,13 +133,41 @@ public class KeepTitleLayout extends RelativeLayout {
     }
 
 
-    @OnClick({R.id.keep_title_left, R.id.keep_title_right})
+    @OnClick({R.id.keep_title_left, R.id.keep_title_right, R.id.left_title_layout, R.id.right_title_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.keep_title_left:
+            case R.id.left_title_layout:
+                if (null != leftClickListener) {
+                    leftClickListener.onLeftClick();
+                }
                 break;
             case R.id.keep_title_right:
+            case R.id.right_title_layout:
+                if (null != rightClickListner) {
+                    rightClickListner.onRightClick();
+                }
                 break;
         }
+    }
+
+    private LeftClickListener leftClickListener;
+    private RightClickListener rightClickListner;
+
+
+    public void setRightClickListner(RightClickListener rightClickListner) {
+        this.rightClickListner = rightClickListner;
+    }
+
+    public void setLeftClickListener(LeftClickListener leftClickListener) {
+        this.leftClickListener = leftClickListener;
+    }
+
+    public interface LeftClickListener {
+        public void onLeftClick();
+    }
+
+    public interface RightClickListener {
+        public void onRightClick();
     }
 }

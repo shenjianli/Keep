@@ -2,17 +2,24 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-    <ImageView
-        android:id="@+id/keep_title_left"
+    <FrameLayout
+        android:id="@+id/left_title_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:background="@null"
-        android:textSize="14sp" />
+        android:background="#ff0000"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/keep_title_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@null"
+            android:textSize="14sp" />
+
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/keep_title_tv"
@@ -22,16 +29,21 @@
         android:singleLine="true"
         android:textSize="17sp" />
 
-    <ImageView
-        android:id="@+id/keep_title_right"
+    <FrameLayout
+        android:id="@+id/right_title_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="7dp"
-        android:background="@null"
-        android:textSize="14sp" />
+        android:padding="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/keep_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textSize="14sp" />
+    </FrameLayout>
+
 
 </merge>

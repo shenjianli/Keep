@@ -11,6 +11,7 @@ import com.shen.keep.R;
 import com.shen.keep.app.KeepApp;
 import com.shen.keep.app.adapter.KeepAdapter;
 import com.shen.keep.app.db.KeepDao;
+import com.shen.keep.core.widget.KeepTitleLayout;
 import com.shen.keep.model.Keep;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShowActivity extends AppCompatActivity {
+public class ShowActivity extends AppCompatActivity implements KeepTitleLayout.LeftClickListener{
 
 
     LinearLayout mShowLayout;
@@ -27,15 +28,18 @@ public class ShowActivity extends AppCompatActivity {
     RecyclerView mShowInfoRv;
     @Bind(R.id.show_keep_info_srl)
     SwipeRefreshLayout mShowKeepInfoSrl;
+    @Bind(R.id.keep_title_layout)
+    KeepTitleLayout keepTitleLayout;
 
     private KeepAdapter mKeepAdapter;
     private List<Keep> keeps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
         ButterKnife.bind(this);
-
+        keepTitleLayout.setLeftClickListener(this);
         keeps = new ArrayList<>();
 
         initRecylerView();
@@ -58,7 +62,7 @@ public class ShowActivity extends AppCompatActivity {
 //        flyRecyclerView.addItemDecoration(decoration);
         //recyclerView.addItemDecoration(new SpacesItemDecoration(10));
         // recyclerView.addItemDecoration(new DividerDecoration(this, DividerDecoration.VERTICAL_LIST));
-        mKeepAdapter = new KeepAdapter(this,keeps);
+        mKeepAdapter = new KeepAdapter(this, keeps);
         mShowInfoRv.setAdapter(mKeepAdapter);
 
 
@@ -80,4 +84,8 @@ public class ShowActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onLeftClick() {
+        finish();
+    }
 }
