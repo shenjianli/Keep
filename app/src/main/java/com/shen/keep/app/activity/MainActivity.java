@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         if(0 == startTime && 0 == exitTime){
             startKeepBtn.setText("开始");
             isEnter = false;
+            queryKeepTime();
         }
     }
 

@@ -3,7 +3,7 @@
     android:id="@+id/fly_motivational_quotes_sum_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#66ff0000">
+    android:background="@color/colorMain">
 
     <TextView
         android:id="@+id/fly_motivational_quotes_enter_time_tv"
@@ -39,10 +39,10 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
-            android:drawableLeft="@drawable/ic_launcher"
+            android:drawableLeft="@mipmap/keep_launcher"
             android:drawablePadding="12dp"
             android:gravity="center_vertical"
-            android:text="FLY"
+            android:text="KEEP"
             android:textSize="30sp" />
 
         <TextView
