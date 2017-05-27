@@ -66,3 +66,4 @@ NoDisplay 不显示，也就是隐藏了
 WithActionBar 在旧版主题上显示ActionBar
 
 很多主题在使用时会报错，原因有很多，比如窗体必须继承AppCompactActivity，或者要继承ActionBarActiivty，或者要继承FragmentActivity，或者需要手动指定宽高，或者需要提升最低API版本，或者需要更高版本的SDK，或者兼容包版本不对等原因。
+
