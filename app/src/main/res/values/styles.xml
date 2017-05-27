@@ -1,10 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <!--Appbar背景色-->
+        <item name="colorPrimary">@color/deep_green_color</item>
+        <!--状态栏颜色-->
+        <item name="colorPrimaryDark">@color/deep_green_color</item>
+        <!--控制各个控件被选中时的颜色-->
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -37,4 +40,21 @@
         <item name="android:background">@drawable/border_bg_btn_selector</item>
     </style>
 
+    <!-- study -->
+    <style name="AppTheme.NoActionBar">
+        <!--状态栏颜色-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--控制各个控件被选中时的颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--页面背景色-->
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
+        <!--底部导航栏颜色-->
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/colorPrimaryDark</item>
+        <!--Appbar背景色-->
+        <item name="android:colorPrimary" tools:ignore="NewApi">@color/colorPrimary</item>
+        <!--ToolBar上的Title颜色-->
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <!--各个控制控件的默认颜色-->
+        <item name="android:colorControlNormal" tools:ignore="NewApi">@color/colorPrimaryDark</item>
+    </style>
 </resources>
