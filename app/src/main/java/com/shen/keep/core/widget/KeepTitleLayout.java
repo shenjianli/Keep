@@ -48,9 +48,16 @@ public class KeepTitleLayout extends RelativeLayout {
 
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.KeepTitleStyle);
         if (attributes != null) {
+
+
+
             //处理titleBar背景色
-            int titleBarBackGround = attributes.getResourceId(R.styleable.KeepTitleStyle_title_background_color, Color.GREEN);
+            int titleBarBackGround = attributes.getResourceId(R.styleable.KeepTitleStyle_title_background_color,R.color.colorThird);
             setBackgroundResource(titleBarBackGround);
+
+//            int titleBackground = attributes.getResourceId(R.styleable.KeepTitleStyle_title_background, R.drawable.background_with_shadow);
+//            setBackgroundResource(titleBackground);
+
             //先处理左边按钮
             //获取是否要显示左边按钮
             boolean leftButtonVisible = attributes.getBoolean(R.styleable.KeepTitleStyle_left_button_visible, true);

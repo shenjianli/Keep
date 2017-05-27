@@ -4,12 +4,13 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <declare-styleable name="KeepTitleStyle">
         <attr name="title_background_color" format="reference|integer" />
+        <attr name="title_background" format="reference|integer" />
         <attr name="left_button_visible" format="boolean" />
         <attr name="right_button_visible" format="boolean" />
         <attr name="title_text" format="string" />

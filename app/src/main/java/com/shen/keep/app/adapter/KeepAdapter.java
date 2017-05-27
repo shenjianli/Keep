@@ -42,10 +42,10 @@ public class KeepAdapter extends BaseAdapter<Keep,KeepHolder>{
             if(null != holder){
                 holder.mKeepNumTv.setText(String.valueOf(position + 1));
                 if(position % 2 == 0){
-                    holder.mKeepItemLayout.setBackgroundColor(Color.RED);
+                    holder.mKeepItemLayout.setBackgroundColor(Color.parseColor("#e67e22"));
                 }
                 else {
-                    holder.mKeepItemLayout.setBackgroundColor(Color.GREEN);
+                    holder.mKeepItemLayout.setBackgroundColor(Color.parseColor("#9b59b6"));
                 }
                 String name = keep.getKeepName();
                 if(!TextUtils.isEmpty(name)){

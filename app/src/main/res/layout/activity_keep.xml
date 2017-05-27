@@ -9,6 +9,7 @@
         android:id="@+id/keep_top_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="10dp"
         keep:right_button_drawable="@drawable/title_right_menu_icon"
         keep:right_button_visible="false"
         keep:title_background_color="@color/colorThird"
