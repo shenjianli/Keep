@@ -48,14 +48,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="开始" />
+            android:text="开始"
+            style="@style/DialogButtonOKStyle"/>
 
         <Button
             android:id="@+id/query_keep_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="查询" />
+            android:text="查询"
+            style="@style/DialogButtonCancelStyle"/>
     </RelativeLayout>
 
 </RelativeLayout>

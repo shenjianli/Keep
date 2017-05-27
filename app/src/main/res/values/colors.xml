@@ -6,6 +6,6 @@
     <color name="colorMain">#e67e22</color>
     <color name="colorSecond">#9b59b6</color>
     <color name="colorThird">#2ecc71</color>
-
+    <color name="keep_btn_pressed">#2e9171</color>
     <color name="transparent">#00000000</color>
 </resources>

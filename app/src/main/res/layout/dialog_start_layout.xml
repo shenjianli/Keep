@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
+        style="@style/DialogButtonOKStyle"
         android:text="开始"/>
 
     <Button
@@ -29,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        style="@style/DialogButtonCancelStyle"
         android:text="取消"/>
 
 </RelativeLayout>

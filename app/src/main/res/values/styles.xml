@@ -22,4 +22,18 @@
         <attr name="left_button_text_color" format="color" />
         <attr name="left_button_drawable" format="reference|integer" />
     </declare-styleable>
+
+    <style name="DialogButtonOKStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/solid_bg_btn_selector</item>
+    </style>
+
+
+    <style name="DialogButtonCancelStyle">
+        <item name="android:textColor">@drawable/border_text_color_selector</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/border_bg_btn_selector</item>
+    </style>
+
 </resources>
