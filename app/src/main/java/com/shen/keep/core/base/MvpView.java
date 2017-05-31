@@ -1,4 +1,4 @@
-package com.shen.keep.core;
+package com.shen.keep.core.base;
 
 public interface MvpView {
     void startLoading();

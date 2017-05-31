@@ -14,5 +14,5 @@
     <Node
         Key="/quote/query"
         Expires="300"
-        MockClass="com.shenjianli.fly.mock.QuoteMockService"/>
+        MockClass="com.shen.keep.mock.QuoteMockService"/>
 </url>

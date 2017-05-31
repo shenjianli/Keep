@@ -1,4 +1,4 @@
-package com.shen.keep.core;
+package com.shen.keep.core.util;
 
 /**
  * Created by edianzu on 2017/5/22.

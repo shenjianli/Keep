@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.shen.keep.R;
 import com.shen.keep.app.holder.KeepHolder;
-import com.shen.keep.core.BaseAdapter;
+import com.shen.keep.core.adapter.BaseAdapter;
 import com.shen.keep.model.Keep;
 
 import java.util.List;

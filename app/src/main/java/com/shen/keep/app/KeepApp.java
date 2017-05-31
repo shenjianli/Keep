@@ -9,7 +9,7 @@ import com.shen.keep.BuildConfig;
 import com.shen.keep.R;
 import com.shen.keep.app.db.DaoMaster;
 import com.shen.keep.app.db.DaoSession;
-import com.shen.keep.core.LogUtils;
+import com.shen.keep.core.util.LogUtils;
 import com.shen.netclient.NetClient;
 import com.shen.netclient.engine.NetClientLib;
 import com.shen.netclient.util.FileUtils;
@@ -48,7 +48,7 @@ public class KeepApp extends Application{
     }
 
     /*
-  根据主项目中的gradle配置文件开初始化不同的开发模式
+    根据主项目中的gradle配置文件开初始化不同的开发模式
    */
     private void initByGradleFile() {
 

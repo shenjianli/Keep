@@ -1,6 +1,8 @@
-package com.shen.keep.core;
+package com.shen.keep.core.adapter;
 
 import android.content.Context;
+
+import com.shen.keep.core.base.BaseHolder;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -156,6 +156,16 @@ public class Quote {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object quote) {
+        if(quote instanceof Quote) {
+            if(content.equals(((Quote) quote).getContent()) && title.equals(((Quote) quote).getTitle())){
+               return true;
+            }
+        }
+        return false;
+    }
+
     public Long getId() {
         return this.id;
     }

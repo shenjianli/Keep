@@ -1,4 +1,4 @@
-package com.shen.keep.core;
+package com.shen.keep.core.util;
 import android.util.Log;
 import java.util.Locale;
 public class LogUtils {

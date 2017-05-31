@@ -1,4 +1,4 @@
-package com.shen.keep.core;
+package com.shen.keep.core.base;
 
 /**
  * Created by toryang on 16/4/27.

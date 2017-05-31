@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.shen.keep.R;
 import com.shen.keep.core.CountTimer;
-import com.shen.keep.core.LogUtils;
+import com.shen.keep.core.util.LogUtils;
 import com.shen.keep.engine.QuotePresenter;
 import com.shen.keep.engine.QuoteView;
 import com.shen.keep.model.Quote;

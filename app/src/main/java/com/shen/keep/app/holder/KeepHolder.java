@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shen.keep.R;
-import com.shen.keep.core.BaseHolder;
+import com.shen.keep.core.base.BaseHolder;
 
 import butterknife.Bind;
 

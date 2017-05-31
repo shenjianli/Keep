@@ -1,10 +1,12 @@
-package com.shen.keep.core;
+package com.shen.keep.core.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.shen.keep.core.base.BaseHolder;
 
 /**
  * RecyclerView.Adapter的扩展,包含headerView/footerView等

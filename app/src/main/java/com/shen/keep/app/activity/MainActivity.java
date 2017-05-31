@@ -11,11 +11,12 @@ import android.widget.TextView;
 
 import com.shen.keep.R;
 import com.shen.keep.app.KeepApp;
+import com.shen.keep.app.KeepDataManager;
 import com.shen.keep.app.db.KeepDao;
 import com.shen.keep.app.db.QuoteDao;
-import com.shen.keep.core.CustomToast;
-import com.shen.keep.core.SharedPreUtil;
-import com.shen.keep.core.TimeUtils;
+import com.shen.keep.core.util.CustomToast;
+import com.shen.keep.core.util.SharedPreUtil;
+import com.shen.keep.core.util.TimeUtils;
 import com.shen.keep.model.Keep;
 import com.shen.keep.model.Quote;
 
@@ -43,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
         queryKeepTime();
+        updateKeepData();
 
+    }
+
+    private void updateKeepData() {
+        KeepDataManager.getKeepDataManager().startUpdateData();
     }
 
     /**

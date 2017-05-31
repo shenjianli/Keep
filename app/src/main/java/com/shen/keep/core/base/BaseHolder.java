@@ -1,4 +1,4 @@
-package com.shen.keep.core;
+package com.shen.keep.core.base;
 
 import android.content.Context;
 import android.support.annotation.IdRes;

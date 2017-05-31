@@ -14,9 +14,9 @@ import android.widget.TextView;
 import com.shen.keep.R;
 import com.shen.keep.app.KeepApp;
 import com.shen.keep.app.db.KeepDao;
-import com.shen.keep.core.CustomToast;
-import com.shen.keep.core.LogUtils;
-import com.shen.keep.core.SharedPreUtil;
+import com.shen.keep.core.util.CustomToast;
+import com.shen.keep.core.util.LogUtils;
+import com.shen.keep.core.util.SharedPreUtil;
 import com.shen.keep.core.widget.KeepTitleLayout;
 import com.shen.keep.model.Keep;
 
