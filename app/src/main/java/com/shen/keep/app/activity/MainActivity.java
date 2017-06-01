@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.query_keep_btn:
                 //inputQuoteInfo();
-                queryKeepInfo();
+                //queryKeepInfo();
+                queryQuoteInfo();//
                 break;
         }
     }
@@ -164,6 +165,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void queryKeepInfo() {
         Intent intent = new Intent(this, ShowActivity.class);
+        startActivity(intent);
+    }
+
+    private void queryQuoteInfo() {
+        Intent intent = new Intent(this, ShowQuoteActivity.class);
         startActivity(intent);
     }
 

@@ -40,6 +40,7 @@ public class QuotePresenter extends BasePresenter<QuoteView> {
     @Override
     public void detachView() {
         super.detachView();
+        quoteSubscriber = null;
     }
 
     public void loadQuoteInfo() {

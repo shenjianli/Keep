@@ -10,7 +10,6 @@ public class KeepDataManager {
     private static final KeepDataManager keepDataManager = new KeepDataManager();
 
     private KeepDataManager(){
-
     }
 
     public static KeepDataManager getKeepDataManager(){

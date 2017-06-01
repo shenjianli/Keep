@@ -120,6 +120,7 @@ public class QuoteActivity extends AppCompatActivity implements CountTimer.Count
 
     private void enterMainPage() {
         if(null != countTimer){
+            countTimer.setCountDownTimerListener(null);
             countTimer.cancel();
         }
         Intent intent = new Intent(this, MainActivity.class);
@@ -135,15 +136,16 @@ public class QuoteActivity extends AppCompatActivity implements CountTimer.Count
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (null != quotePresenter) {
-            quotePresenter.detachView();
-            quotePresenter = null;
-        }
 
         if (null != countTimer) {
             countTimer.setCountDownTimerListener(null);
             countTimer.cancel();
             countTimer = null;
+        }
+
+        if (null != quotePresenter) {
+            quotePresenter.detachView();
+            quotePresenter = null;
         }
     }
 
