@@ -1,41 +1,64 @@
 package com.shen.keep.app.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shen.keep.R;
-import com.shen.keep.app.KeepApp;
 import com.shen.keep.app.KeepDataManager;
-import com.shen.keep.app.db.KeepDao;
-import com.shen.keep.app.db.QuoteDao;
-import com.shen.keep.core.util.CustomToast;
-import com.shen.keep.core.util.SharedPreUtil;
-import com.shen.keep.core.util.TimeUtils;
-import com.shen.keep.model.Keep;
-import com.shen.keep.model.Quote;
+import com.shen.keep.app.adapter.TabFragmentAdapter;
+import com.shen.keep.app.fragment.HomeTabFragment;
+import com.shen.keep.core.base.BaseFragment;
+import com.shen.netclient.util.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
-    @Bind(R.id.query_keep_btn)
-    Button queryKeepBtn;
-    @Bind(R.id.start_keep_btn)
-    Button startKeepBtn;
-    @Bind(R.id.keep_sum_time_tv)
-    TextView keepSumTimeTv;
-    @Bind(R.id.keep_name_tv)
-    TextView keepNameTv;
+
+    @Bind(R.id.keep_main_tab1_iv)
+    ImageView keepMainTab1Iv;
+    @Bind(R.id.keep_main_tab1_tv)
+    TextView keepMainTab1Tv;
+    @Bind(R.id.keep_main_tab2_iv)
+    ImageView keepMainTab2Iv;
+    @Bind(R.id.keep_main_tab2_tv)
+    TextView keepMainTab2Tv;
+    @Bind(R.id.keep_main_tab3_iv)
+    ImageView keepMainTab3Iv;
+    @Bind(R.id.keep_main_tab3_tv)
+    TextView keepMainTab3Tv;
+    @Bind(R.id.keep_main_tab4_iv)
+    ImageView keepMainTab4Iv;
+    @Bind(R.id.keep_main_tab4_tv)
+    TextView keepMainTab4Tv;
+    @Bind(R.id.keep_main_bottom_layout)
+    LinearLayout keepMainBottomLayout;
+
+    @Bind(R.id.keep_main_viewpager)
+    ViewPager keepMainViewpager;
+    @Bind(R.id.keep_main_tab1_layout)
+    LinearLayout keepMainTab1Layout;
+    @Bind(R.id.keep_main_tab2_layout)
+    LinearLayout keepMainTab2Layout;
+    @Bind(R.id.keep_main_tab3_layout)
+    LinearLayout keepMainTab3Layout;
+    @Bind(R.id.keep_main_tab4_layout)
+    LinearLayout keepMainTab4Layout;
+
+    private TabFragmentAdapter tabFragmentAdapter;
+    private List<BaseFragment> fragments;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,51 +66,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
-        queryKeepTime();
-        updateKeepData();
+        initData();
+    }
 
+    private void initData() {
+        fragments = new ArrayList<>();
+        fragments.add(HomeTabFragment.newInstance(1));
+        fragments.add(HomeTabFragment.newInstance(2));
+        fragments.add(HomeTabFragment.newInstance(3));
+        fragments.add(HomeTabFragment.newInstance(4));
+
+        tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(),fragments);
+        keepMainViewpager.setAdapter(tabFragmentAdapter);
+
+        keepMainViewpager.addOnPageChangeListener(this);
+
+        keepMainTab1Iv.setSelected(true);
+        keepMainTab1Tv.setSelected(true);
     }
 
     private void updateKeepData() {
         KeepDataManager.getKeepDataManager().startUpdateData();
     }
 
-    /**
-     * 是否在没有提示情况下进入
-     */
-    private boolean isEnter = false;
+
     private void initView() {
-        long startTime = SharedPreUtil.get(this, "start_cnt", 0L);
-        long exitTime = SharedPreUtil.get(this, "exit_time", 0L);
-        if( startTime > 0){
-            if(0 != exitTime){
-                startKeepBtn.setText("进入");
-                isEnter = true;
-            }
-        }
-        if(0 == startTime && 0 == exitTime){
-            startKeepBtn.setText("开始");
-            isEnter = false;
-            queryKeepTime();
-        }
+        //设置ViewPager的最大缓存页面
+        keepMainViewpager.setOffscreenPageLimit(3);
     }
 
-    private void queryKeepTime() {
-        KeepDao keepDao = KeepApp.getAppInstance().getDaoSession().getKeepDao();
-        if (null != keepDao) {
-            List<Keep> keepList = keepDao.loadAll();
-            long keepTime = 0;
-            for (Keep keep : keepList) {
-                keepTime += keep.getKeepSecNum();
-            }
-            keepSumTimeTv.setText(TimeUtils.getTimerStrBySecNum(keepTime));
-        }
-    }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        initView();
     }
 
     @Override
@@ -98,96 +109,88 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(null != startDialog){
-            startDialog.dismiss();
-            startDialog = null;
-        }
+
     }
 
-    @OnClick({R.id.query_keep_btn, R.id.start_keep_btn})
+    @OnClick({R.id.keep_main_tab1_layout, R.id.keep_main_tab2_layout, R.id.keep_main_tab3_layout, R.id.keep_main_tab4_layout})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.start_keep_btn:
-                if(isEnter){
-                    enterKeepPage();
-                }
-                else {
-                    showStartDialog();
+            case R.id.keep_main_tab1_layout:
+                keepMainViewpager.setCurrentItem(0, false);
+                break;
+            case R.id.keep_main_tab2_layout:
+                keepMainViewpager.setCurrentItem(1, false);
+                break;
+            case R.id.keep_main_tab3_layout:
+                keepMainViewpager.setCurrentItem(2, false);
+                break;
+            case R.id.keep_main_tab4_layout:
+                keepMainViewpager.setCurrentItem(3, false);
+                break;
+        }
+    }
+
+    private int currentPosition = 0;
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        LogUtils.i("position=" + position + "    positionOffset=" + positionOffset);
+
+        switch (position){
+            case 0:
+                if(currentPosition != position){
+                    currentPosition = position;
+                    restoreTabStyle();
+                    keepMainTab1Iv.setSelected(true);
+                    keepMainTab1Tv.setSelected(true);
                 }
                 break;
-            case R.id.query_keep_btn:
-                //inputQuoteInfo();
-                //queryKeepInfo();
-                queryQuoteInfo();//
+            case 1:
+                if(currentPosition != position){
+                    currentPosition = position;
+                    restoreTabStyle();
+                    keepMainTab2Iv.setSelected(true);
+                    keepMainTab2Tv.setSelected(true);
+                }
+                break;
+            case 2:
+                if(currentPosition != position){
+                    currentPosition = position;
+                    restoreTabStyle();
+                    keepMainTab3Iv.setSelected(true);
+                    keepMainTab3Tv.setSelected(true);
+                }
+                break;
+            case 3:
+                if(currentPosition != position){
+                    currentPosition = position;
+                    restoreTabStyle();
+                    keepMainTab4Iv.setSelected(true);
+                    keepMainTab4Tv.setSelected(true);
+                }
+                break;
+            default:
                 break;
         }
     }
 
-
-    AlertDialog startDialog;
-    private void showStartDialog() {
-
-        LayoutInflater inflater = LayoutInflater.from(this) ;
-
-        View view = inflater.inflate(R.layout.dialog_start_layout, null) ;
-
-        startDialog = new AlertDialog.Builder(this)
-                .setView(view).create();
-
-        view.findViewById(R.id.dialog_start_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterKeepPage();
-                CustomToast.show(MainActivity.this,"GO！祝你成功！");
-                startDialog.dismiss();
-            }
-        });
-
-        view.findViewById(R.id.dialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CustomToast.showLong(MainActivity.this,"希望下次，你可以有一颗坚持之心");
-                startDialog.dismiss();
-            }
-        });
-
-
-        startDialog.show();
-        if(null != startDialog){
-            startDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
-        }
+    private void restoreTabStyle() {
+        keepMainTab1Iv.setSelected(false);
+        keepMainTab1Tv.setSelected(false);
+        keepMainTab2Iv.setSelected(false);
+        keepMainTab2Tv.setSelected(false);
+        keepMainTab3Iv.setSelected(false);
+        keepMainTab3Tv.setSelected(false);
+        keepMainTab4Iv.setSelected(false);
+        keepMainTab4Tv.setSelected(false);
     }
 
-    private void enterKeepPage() {
-        Intent intent = new Intent(MainActivity.this, KeepActivity.class);
-        startActivity(intent);
+    @Override
+    public void onPageSelected(int position) {
+
     }
 
-    private void queryKeepInfo() {
-        Intent intent = new Intent(this, ShowActivity.class);
-        startActivity(intent);
-    }
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
-    private void queryQuoteInfo() {
-        Intent intent = new Intent(this, ShowQuoteActivity.class);
-        startActivity(intent);
-    }
-
-    private void inputQuoteInfo() {
-        QuoteDao quoteDao = KeepApp.getAppInstance().getDaoSession().getQuoteDao();
-        if (null != quoteDao) {
-            Quote quote = new Quote();
-            quote.setTitle("撑起头顶的天");
-            quote.setContent("我要养成这样的习惯： 我喜欢，驾驭着代码在风驰电掣中创造完美！我喜欢，操纵着代码在随心所欲中体验生活！我喜欢，书写着代码在时代浪潮中完成经典！每一段新的代码在我手中诞生对我来说就像观看刹那花开的感动！");
-            quote.setAppName("程序员");
-            quote.setAppImgUrl("");
-            quote.setBgImgUrl("http://pic.qiantucdn.com/58pic/25/63/65/08b58PICt2I_1024.jpg");
-            quote.setContentColor("#00ffff");
-            quote.setTitleColor("#f0000f");
-            quote.setCountTime(10);
-            quoteDao.insert(quote);
-            quoteDao.insertWithoutSettingPk(quote);
-            CustomToast.show(this, "录入数据成功");
-        }
     }
 }

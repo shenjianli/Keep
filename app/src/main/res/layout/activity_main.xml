@@ -2,62 +2,122 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp">
+    >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/keep_sum_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:text=""/>
-        <TextView
-            android:id="@+id/keep_sum_time_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:text="总时长"/>
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/keep_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:text="不积跬步,无以至千里，不积小流,无以成江海！"/>
-
-
-    <RelativeLayout
+        android:id="@+id/keep_main_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        >
+        android:orientation="horizontal"
+        android:padding="@dimen/keep_out_margin_dimen">
 
-        <Button
-            android:id="@+id/start_keep_btn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/keep_main_tab1_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="开始"
-            style="@style/DialogButtonOKStyle"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/query_keep_btn"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/keep_main_tab1_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab1_bg_btn_selector"/>
+
+            <TextView
+                android:id="@+id/keep_main_tab1_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/tab_text_color_selector"
+                android:text="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/keep_main_tab2_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="查询"
-            style="@style/DialogButtonCancelStyle"/>
-    </RelativeLayout>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/keep_main_tab2_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab2_bg_btn_selector"/>
+
+            <TextView
+                android:id="@+id/keep_main_tab2_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/tab_text_color_selector"
+                android:text="2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/keep_main_tab3_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/keep_main_tab3_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab3_bg_btn_selector"/>
+
+            <TextView
+                android:id="@+id/keep_main_tab3_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/tab_text_color_selector"
+                android:text="3"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/keep_main_tab4_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/keep_main_tab4_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab4_bg_btn_selector"/>
+
+            <TextView
+                android:id="@+id/keep_main_tab4_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/tab_text_color_selector"
+                android:text="4"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/keep_main_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/keep_main_bottom_layout"
+        android:background="@color/colorMain"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/keep_main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/keep_main_bottom_line"
+       />
 
 </RelativeLayout>

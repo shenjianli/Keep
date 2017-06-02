@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="keep_corner_dimen">12dp</dimen>
+
+    <dimen name="keep_out_margin_dimen">15dp</dimen>
 </resources>
