@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private TabFragmentAdapter tabFragmentAdapter;
     private List<BaseFragment> fragments;
 
-
+    private List<ImageView> tabIcons;
+    private List<TextView> tabTexts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fragments.add(HomeTabFragment.newInstance(3));
         fragments.add(HomeTabFragment.newInstance(4));
 
-        tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(),fragments);
+        tabIcons = new ArrayList<>();
+        tabIcons.add(keepMainTab1Iv);
+        tabIcons.add(keepMainTab2Iv);
+        tabIcons.add(keepMainTab3Iv);
+        tabIcons.add(keepMainTab4Iv);
+
+        tabTexts = new ArrayList<>();
+        tabTexts.add(keepMainTab1Tv);
+        tabTexts.add(keepMainTab2Tv);
+        tabTexts.add(keepMainTab3Tv);
+        tabTexts.add(keepMainTab4Tv);
+
+        tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
         keepMainViewpager.setAdapter(tabFragmentAdapter);
 
         keepMainViewpager.addOnPageChangeListener(this);
@@ -93,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private void initView() {
         //设置ViewPager的最大缓存页面
         keepMainViewpager.setOffscreenPageLimit(3);
+
     }
 
 
@@ -131,46 +145,44 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     private int currentPosition = 0;
+    private boolean isFirstCall = true;
+
+    private int leftRightIndex = 1;//向左为1，向右为-1
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        LogUtils.i("position=" + position + "    positionOffset=" + positionOffset);
-
-        switch (position){
-            case 0:
-                if(currentPosition != position){
-                    currentPosition = position;
-                    restoreTabStyle();
-                    keepMainTab1Iv.setSelected(true);
-                    keepMainTab1Tv.setSelected(true);
-                }
-                break;
-            case 1:
-                if(currentPosition != position){
-                    currentPosition = position;
-                    restoreTabStyle();
-                    keepMainTab2Iv.setSelected(true);
-                    keepMainTab2Tv.setSelected(true);
-                }
-                break;
-            case 2:
-                if(currentPosition != position){
-                    currentPosition = position;
-                    restoreTabStyle();
-                    keepMainTab3Iv.setSelected(true);
-                    keepMainTab3Tv.setSelected(true);
-                }
-                break;
-            case 3:
-                if(currentPosition != position){
-                    currentPosition = position;
-                    restoreTabStyle();
-                    keepMainTab4Iv.setSelected(true);
-                    keepMainTab4Tv.setSelected(true);
-                }
-                break;
-            default:
-                break;
+        LogUtils.i("position=" + position + "当前选择的：" + currentPosition + "    positionOffset=" + positionOffset + "offsetPixels=" + positionOffsetPixels);
+        if (isFirstCall && position == currentPosition) {
+            isFirstCall = false;
+            LogUtils.i("向左滑动");
+            leftRightIndex = 1;
         }
+
+        if (isFirstCall && currentPosition > position) {
+            isFirstCall = false;
+            LogUtils.i("向右滑动");
+            leftRightIndex = -1;
+        }
+
+        if(positionOffset > 0){
+
+            int currAlpha = (int) ((1 - positionOffset)*255);
+            ImageView currView = tabIcons.get(currentPosition);
+            currView.setAlpha(currAlpha);
+            TextView currTextView = tabTexts.get(currentPosition);
+            currTextView.setAlpha(currAlpha);
+
+            int moveAlpha = (int) (positionOffset * 255);
+
+            ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
+            TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
+            moveView.setSelected(true);
+            moveView.setAlpha(moveAlpha);
+            moveTextView.setSelected(true);
+            moveTextView.setAlpha(moveAlpha);
+
+        }
+
     }
 
     private void restoreTabStyle() {
@@ -186,11 +198,24 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position) {
+        LogUtils.i("position=" + position);
+        currentPosition = position;
 
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        if (ViewPager.SCROLL_STATE_IDLE == state) {
+            LogUtils.i("状态：idle");
+            isFirstCall = true;
 
+            if(currentPosition < (tabIcons.size() -1)){
+                tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
+                tabTexts.get(currentPosition - leftRightIndex).setSelected(false);
+
+                tabIcons.get(currentPosition).setSelected(true);
+                tabTexts.get(currentPosition).setSelected(true);
+            }
+        }
     }
 }
