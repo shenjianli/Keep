@@ -130,17 +130,33 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.keep_main_tab1_layout:
+                changeTabMenuStyle(0);
                 keepMainViewpager.setCurrentItem(0, false);
+
                 break;
             case R.id.keep_main_tab2_layout:
+                changeTabMenuStyle(1);
                 keepMainViewpager.setCurrentItem(1, false);
                 break;
             case R.id.keep_main_tab3_layout:
+                changeTabMenuStyle(2);
                 keepMainViewpager.setCurrentItem(2, false);
                 break;
             case R.id.keep_main_tab4_layout:
+                changeTabMenuStyle(3);
                 keepMainViewpager.setCurrentItem(3, false);
                 break;
+        }
+    }
+
+    private void changeTabMenuStyle(int index){
+        if(currentPosition != index){
+            tabIcons.get(currentPosition).setSelected(false);
+            tabTexts.get(currentPosition).setSelected(false);
+            currentPosition = index;
+            tabIcons.get(currentPosition).setSelected(true);
+            tabTexts.get(currentPosition).setSelected(true);
+            isFirstCall = true;
         }
     }
 
@@ -164,24 +180,24 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             leftRightIndex = -1;
         }
 
-        if(positionOffset > 0){
-
-            int currAlpha = (int) ((1 - positionOffset)*255);
-            ImageView currView = tabIcons.get(currentPosition);
-            currView.setAlpha(currAlpha);
-            TextView currTextView = tabTexts.get(currentPosition);
-            currTextView.setAlpha(currAlpha);
-
-            int moveAlpha = (int) (positionOffset * 255);
-
-            ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
-            TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
-            moveView.setSelected(true);
-            moveView.setAlpha(moveAlpha);
-            moveTextView.setSelected(true);
-            moveTextView.setAlpha(moveAlpha);
-
-        }
+//        if(positionOffset > 0){
+//
+//            int currAlpha = (int) ((1 - positionOffset)*255);
+//            ImageView currView = tabIcons.get(currentPosition);
+//            currView.setAlpha(currAlpha);
+//            TextView currTextView = tabTexts.get(currentPosition);
+//            currTextView.setAlpha(currAlpha);
+//
+//            int moveAlpha = (int) (positionOffset * 255);
+//
+//            ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
+//            TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
+//            moveView.setSelected(true);
+//            moveView.setAlpha(moveAlpha);
+//            moveTextView.setSelected(true);
+//            moveTextView.setAlpha(moveAlpha);
+//
+//        }
 
     }
 
@@ -199,7 +215,18 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageSelected(int position) {
         LogUtils.i("position=" + position);
-        currentPosition = position;
+        if(currentPosition != position){
+            currentPosition = position;
+            if(currentPosition < tabIcons.size()){
+                tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
+                tabTexts.get(currentPosition - leftRightIndex).setSelected(false);
+
+                tabIcons.get(currentPosition).setSelected(true);
+                tabTexts.get(currentPosition).setSelected(true);
+                isFirstCall = true;
+            }
+        }
+
 
     }
 
@@ -208,14 +235,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (ViewPager.SCROLL_STATE_IDLE == state) {
             LogUtils.i("状态：idle");
             isFirstCall = true;
-
-            if(currentPosition < (tabIcons.size() -1)){
-                tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
-                tabTexts.get(currentPosition - leftRightIndex).setSelected(false);
-
-                tabIcons.get(currentPosition).setSelected(true);
-                tabTexts.get(currentPosition).setSelected(true);
-            }
         }
     }
 }
