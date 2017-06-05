@@ -180,24 +180,27 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             leftRightIndex = -1;
         }
 
-//        if(positionOffset > 0){
-//
-//            int currAlpha = (int) ((1 - positionOffset)*255);
-//            ImageView currView = tabIcons.get(currentPosition);
-//            currView.setAlpha(currAlpha);
-//            TextView currTextView = tabTexts.get(currentPosition);
-//            currTextView.setAlpha(currAlpha);
-//
-//            int moveAlpha = (int) (positionOffset * 255);
-//
-//            ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
-//            TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
-//            moveView.setSelected(true);
-//            moveView.setAlpha(moveAlpha);
-//            moveTextView.setSelected(true);
-//            moveTextView.setAlpha(moveAlpha);
-//
-//        }
+        if(positionOffset > 0){
+
+            if( 1 == leftRightIndex){
+                int currAlpha = (int) ((1 - positionOffset)*255);
+                ImageView currView = tabIcons.get(currentPosition);
+                currView.setAlpha(currAlpha);
+                TextView currTextView = tabTexts.get(currentPosition);
+                currTextView.setAlpha(currAlpha);
+
+                int moveAlpha = (int) (positionOffset * 255);
+
+                ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
+                TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
+                moveView.setSelected(true);
+                moveView.setAlpha(moveAlpha);
+                moveTextView.setSelected(true);
+                moveTextView.setAlpha(moveAlpha);
+            }
+
+
+        }
 
     }
 
@@ -214,17 +217,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position) {
+        LogUtils.i("3.当前选择的：" + currentPosition);
         LogUtils.i("position=" + position);
         if(currentPosition != position){
             currentPosition = position;
             if(currentPosition < tabIcons.size()){
                 tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
                 tabTexts.get(currentPosition - leftRightIndex).setSelected(false);
-
                 tabIcons.get(currentPosition).setSelected(true);
                 tabTexts.get(currentPosition).setSelected(true);
-                isFirstCall = true;
             }
+            leftRightIndex = 0;
         }
 
 
@@ -233,8 +236,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageScrollStateChanged(int state) {
         if (ViewPager.SCROLL_STATE_IDLE == state) {
-            LogUtils.i("状态：idle");
+            LogUtils.i("4.当前选择的：" + currentPosition);
+            LogUtils.i("状态：IDLE");
             isFirstCall = true;
+        }
+        else if(ViewPager.SCROLL_STATE_DRAGGING == state){
+            LogUtils.i("1.状态：DRAGGING");
+            LogUtils.i("当前选择的：" + currentPosition);
+        }
+        else if(ViewPager.SCROLL_STATE_SETTLING == state){
+            LogUtils.i("2.当前选择的：" + currentPosition);
+            LogUtils.i("状态：SETTLING");
         }
     }
 }
