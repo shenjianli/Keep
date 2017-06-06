@@ -229,6 +229,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     tabTexts.get(currentPosition + leftRightIndex).setAlpha(1.0f);
                     leftRightIndex = 0;
                 }
+                //解决快速滑动无法恢复选中
+                if(currentPosition != position){
+                    isFirstCall = true;
+                }
             }
         }
 
@@ -254,11 +258,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             //当滑动到当前项改变时调用
             if(currentPosition < tabIcons.size()){
 
-                tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
-                tabTexts.get(currentPosition - leftRightIndex).setSelected(false);
+                if((0 < currentPosition && -1 == leftRightIndex) || (currentPosition < 3 && leftRightIndex == 1)) {
+                    tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
+                    tabTexts.get(currentPosition - leftRightIndex).setSelected(false);
 
-                tabIcons.get(currentPosition - leftRightIndex).setAlpha(1.0f);
-                tabTexts.get(currentPosition - leftRightIndex).setAlpha(1.0f);
+                    tabIcons.get(currentPosition - leftRightIndex).setAlpha(1.0f);
+                    tabTexts.get(currentPosition - leftRightIndex).setAlpha(1.0f);
+                }
 
 
                 tabIcons.get(currentPosition).setSelected(true);
@@ -268,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
 
             }
+            isFirstCall = true;
             leftRightIndex = 0;
         }
 
@@ -298,6 +305,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     tabTexts.get(currentPosition + leftRightIndex).setAlpha(1.0f);
                 }
                 leftRightIndex = 0;
+            }
+            else {
+//                restoreTabStyle();
+//                tabIcons.get(currentPosition).setSelected(true);
+//                tabTexts.get(currentPosition).setSelected(true);
+//                tabIcons.get(currentPosition).setAlpha(1.0f);
+//                tabTexts.get(currentPosition).setAlpha(1.0f);
             }
         }
         else if(ViewPager.SCROLL_STATE_DRAGGING == state){
