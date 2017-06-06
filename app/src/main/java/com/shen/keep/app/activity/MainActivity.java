@@ -182,24 +182,44 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         if(positionOffset > 0){
 
-            if( 1 == leftRightIndex){
-                int currAlpha = (int) ((1 - positionOffset)*255);
-                ImageView currView = tabIcons.get(currentPosition);
-                currView.setAlpha(currAlpha);
-                TextView currTextView = tabTexts.get(currentPosition);
-                currTextView.setAlpha(currAlpha);
+            if(ViewPager.SCROLL_STATE_DRAGGING == scrollState){
+                if( 1 == leftRightIndex || -1 == leftRightIndex){
+                    float currAlpha = 1 - positionOffset;
+                    if(currAlpha < 0.3){
+                        currAlpha = 0.3f;
+                    }
+                    float moveAlpha = positionOffset + 0.3f;
+                    if(moveAlpha > 1.0){
+                        moveAlpha = 1;
+                    }
+                    tabIcons.get(currentPosition).setAlpha(currAlpha);
+                    tabTexts.get(currentPosition).setAlpha(currAlpha);
 
-                int moveAlpha = (int) (positionOffset * 255);
+                    ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
+                    TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
+                    moveView.setSelected(true);
+                    moveTextView.setSelected(true);
 
-                ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
-                TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
-                moveView.setSelected(true);
-                moveView.setAlpha(moveAlpha);
-                moveTextView.setSelected(true);
-                moveTextView.setAlpha(moveAlpha);
+                    moveView.setAlpha(moveAlpha);
+                    moveTextView.setAlpha(moveAlpha);
+                }
+
             }
+            else if(ViewPager.SCROLL_STATE_SETTLING == scrollState){
 
+                if( 1 == leftRightIndex || -1 == leftRightIndex){
+                    tabIcons.get(currentPosition).setSelected(true);
+                    tabTexts.get(currentPosition).setSelected(true);
+                    tabIcons.get(currentPosition).setAlpha(1.0f);
+                    tabTexts.get(currentPosition).setAlpha(1.0f);
 
+                    tabIcons.get(currentPosition + leftRightIndex).setSelected(false);
+                    tabTexts.get(currentPosition + leftRightIndex).setSelected(false);
+                    tabIcons.get(currentPosition + leftRightIndex).setAlpha(1.0f);
+                    tabTexts.get(currentPosition + leftRightIndex).setAlpha(1.0f);
+                    leftRightIndex = 0;
+                }
+            }
         }
 
     }
@@ -222,23 +242,51 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if(currentPosition != position){
             currentPosition = position;
             if(currentPosition < tabIcons.size()){
+
                 tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
                 tabTexts.get(currentPosition - leftRightIndex).setSelected(false);
+
+                tabIcons.get(currentPosition - leftRightIndex).setAlpha(1.0f);
+                tabTexts.get(currentPosition - leftRightIndex).setAlpha(1.0f);
+
+
                 tabIcons.get(currentPosition).setSelected(true);
                 tabTexts.get(currentPosition).setSelected(true);
+                tabIcons.get(currentPosition).setAlpha(1.0f);
+                tabTexts.get(currentPosition).setAlpha(1.0f);
+
+
             }
             leftRightIndex = 0;
         }
 
-
     }
+
+    private int scrollState = ViewPager.SCROLL_STATE_IDLE;
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        scrollState = state;
         if (ViewPager.SCROLL_STATE_IDLE == state) {
-            LogUtils.i("4.当前选择的：" + currentPosition);
+            LogUtils.i("4.当前选择的：" + currentPosition  + "  left or right:" + leftRightIndex);
             LogUtils.i("状态：IDLE");
             isFirstCall = true;
+
+            if( 1 == leftRightIndex || -1 == leftRightIndex){
+                tabIcons.get(currentPosition).setSelected(true);
+                tabTexts.get(currentPosition).setSelected(true);
+                tabIcons.get(currentPosition).setAlpha(1.0f);
+                tabTexts.get(currentPosition).setAlpha(1.0f);
+
+               if((0 < currentPosition && -1 == leftRightIndex) || (currentPosition < 3 && leftRightIndex == 1)){
+                    tabIcons.get(currentPosition + leftRightIndex).setSelected(false);
+                    tabTexts.get(currentPosition + leftRightIndex).setSelected(false);
+
+                    tabIcons.get(currentPosition + leftRightIndex).setAlpha(1.0f);
+                    tabTexts.get(currentPosition + leftRightIndex).setAlpha(1.0f);
+                }
+                leftRightIndex = 0;
+            }
         }
         else if(ViewPager.SCROLL_STATE_DRAGGING == state){
             LogUtils.i("1.状态：DRAGGING");
