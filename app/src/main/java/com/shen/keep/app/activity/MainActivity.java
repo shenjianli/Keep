@@ -162,39 +162,48 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     private int currentPosition = 0;
     private boolean isFirstCall = true;
-
-    private int leftRightIndex = 1;//向左为1，向右为-1
+    private int leftRightIndex = 0;//向左为1，向右为-1 初始状态0
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         LogUtils.i("position=" + position + "当前选择的：" + currentPosition + "    positionOffset=" + positionOffset + "offsetPixels=" + positionOffsetPixels);
-        if (isFirstCall && position == currentPosition) {
+        if (isFirstCall && position == currentPosition) {  //向左滑动
             isFirstCall = false;
             LogUtils.i("向左滑动");
             leftRightIndex = 1;
         }
-
-        if (isFirstCall && currentPosition > position) {
+        else if (isFirstCall && currentPosition > position) { //向右滑动
             isFirstCall = false;
             LogUtils.i("向右滑动");
             leftRightIndex = -1;
         }
 
         if(positionOffset > 0){
-
+            //当为滑动状态时
             if(ViewPager.SCROLL_STATE_DRAGGING == scrollState){
+                //如果用户向左向右滑动时，进行透明度改变
                 if( 1 == leftRightIndex || -1 == leftRightIndex){
                     float currAlpha = 1 - positionOffset;
-                    if(currAlpha < 0.3){
-                        currAlpha = 0.3f;
-                    }
                     float moveAlpha = positionOffset + 0.3f;
+
+                    if(-1 == leftRightIndex){
+                        currAlpha = positionOffset;
+                        moveAlpha = 1 - positionOffset + 0.3f;
+                    }
+
+                    if(currAlpha < 0.3){
+                        currAlpha = 0.6f - currAlpha;
+                    }
+
                     if(moveAlpha > 1.0){
                         moveAlpha = 1;
                     }
+
+                    //更新当前项的透明度
                     tabIcons.get(currentPosition).setAlpha(currAlpha);
                     tabTexts.get(currentPosition).setAlpha(currAlpha);
 
+                    //更新将要滑动项的透明度
                     ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
                     TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
                     moveView.setSelected(true);
@@ -204,10 +213,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     moveTextView.setAlpha(moveAlpha);
                 }
 
-            }
+            }  //当滑动一点点，就释放时调用
             else if(ViewPager.SCROLL_STATE_SETTLING == scrollState){
 
                 if( 1 == leftRightIndex || -1 == leftRightIndex){
+
                     tabIcons.get(currentPosition).setSelected(true);
                     tabTexts.get(currentPosition).setSelected(true);
                     tabIcons.get(currentPosition).setAlpha(1.0f);
@@ -241,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         LogUtils.i("position=" + position);
         if(currentPosition != position){
             currentPosition = position;
+            //当滑动到当前项改变时调用
             if(currentPosition < tabIcons.size()){
 
                 tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
@@ -271,13 +282,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             LogUtils.i("4.当前选择的：" + currentPosition  + "  left or right:" + leftRightIndex);
             LogUtils.i("状态：IDLE");
             isFirstCall = true;
-
+            //滑动出去一点点，然后再滑动回原来位置
             if( 1 == leftRightIndex || -1 == leftRightIndex){
                 tabIcons.get(currentPosition).setSelected(true);
                 tabTexts.get(currentPosition).setSelected(true);
                 tabIcons.get(currentPosition).setAlpha(1.0f);
                 tabTexts.get(currentPosition).setAlpha(1.0f);
 
+                //边界控制，避免越界
                if((0 < currentPosition && -1 == leftRightIndex) || (currentPosition < 3 && leftRightIndex == 1)){
                     tabIcons.get(currentPosition + leftRightIndex).setSelected(false);
                     tabTexts.get(currentPosition + leftRightIndex).setSelected(false);
