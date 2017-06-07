@@ -36,6 +36,7 @@
 
         </activity>
 
+        <activity android:name=".app.activity.HomeActivity"></activity>
 
     </application>
 

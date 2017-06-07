@@ -12,6 +12,7 @@ import com.shen.keep.R;
 import com.shen.keep.app.KeepDataManager;
 import com.shen.keep.app.adapter.TabFragmentAdapter;
 import com.shen.keep.app.fragment.HomeTabFragment;
+import com.shen.keep.app.fragment.ShowTabFragment;
 import com.shen.keep.core.base.BaseFragment;
 import com.shen.netclient.util.LogUtils;
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private void initData() {
         fragments = new ArrayList<>();
         fragments.add(HomeTabFragment.newInstance(1));
-        fragments.add(HomeTabFragment.newInstance(2));
+        fragments.add(ShowTabFragment.newInstance(2));
         fragments.add(HomeTabFragment.newInstance(3));
         fragments.add(HomeTabFragment.newInstance(4));
 
@@ -132,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             case R.id.keep_main_tab1_layout:
                 changeTabMenuStyle(0);
                 keepMainViewpager.setCurrentItem(0, false);
-
                 break;
             case R.id.keep_main_tab2_layout:
                 changeTabMenuStyle(1);
@@ -227,11 +227,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     tabTexts.get(currentPosition + leftRightIndex).setSelected(false);
                     tabIcons.get(currentPosition + leftRightIndex).setAlpha(1.0f);
                     tabTexts.get(currentPosition + leftRightIndex).setAlpha(1.0f);
-                    leftRightIndex = 0;
-                }
-                //解决快速滑动无法恢复选中
-                if(currentPosition != position){
-                    isFirstCall = true;
+                    //leftRightIndex = 0;
+//                    //解决快速滑动无法恢复选中
+//                    if(currentPosition != position){
+//                        isFirstCall = true;
+//                    }
                 }
             }
         }
@@ -258,7 +258,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             //当滑动到当前项改变时调用
             if(currentPosition < tabIcons.size()){
 
-                if((0 < currentPosition && -1 == leftRightIndex) || (currentPosition < 3 && leftRightIndex == 1)) {
+                //if((0 < currentPosition && -1 == leftRightIndex) || (currentPosition < 3 && leftRightIndex == 1))
+                {
                     tabIcons.get(currentPosition - leftRightIndex).setSelected(false);
                     tabTexts.get(currentPosition - leftRightIndex).setSelected(false);
 
@@ -274,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
 
             }
-            isFirstCall = true;
             leftRightIndex = 0;
         }
 
