@@ -136,7 +136,7 @@ public class QuoteActivity extends AppCompatActivity implements CountTimer.Count
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        ButterKnife.unbind(this);
         if (null != countTimer) {
             countTimer.setCountDownTimerListener(null);
             countTimer.cancel();

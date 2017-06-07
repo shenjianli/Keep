@@ -12,6 +12,8 @@ import com.shen.keep.R;
 import com.shen.keep.app.KeepDataManager;
 import com.shen.keep.app.adapter.TabFragmentAdapter;
 import com.shen.keep.app.fragment.HomeTabFragment;
+import com.shen.keep.app.fragment.MyTabFragment;
+import com.shen.keep.app.fragment.QuoteTabFragment;
 import com.shen.keep.app.fragment.ShowTabFragment;
 import com.shen.keep.core.base.BaseFragment;
 import com.shen.netclient.util.LogUtils;
@@ -75,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fragments = new ArrayList<>();
         fragments.add(HomeTabFragment.newInstance(1));
         fragments.add(ShowTabFragment.newInstance(2));
-        fragments.add(HomeTabFragment.newInstance(3));
-        fragments.add(HomeTabFragment.newInstance(4));
+        fragments.add(QuoteTabFragment.newInstance(3));
+        fragments.add(MyTabFragment.newInstance(4));
 
         tabIcons = new ArrayList<>();
         tabIcons.add(keepMainTab1Iv);
@@ -178,63 +180,119 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             leftRightIndex = -1;
         }
 
-        if(positionOffset > 0){
-            //当为滑动状态时
-            if(ViewPager.SCROLL_STATE_DRAGGING == scrollState){
-                //如果用户向左向右滑动时，进行透明度改变
-                if( 1 == leftRightIndex || -1 == leftRightIndex){
-                    float currAlpha = 1 - positionOffset;
-                    float moveAlpha = positionOffset + 0.3f;
-
-                    if(-1 == leftRightIndex){
-                        currAlpha = positionOffset;
-                        moveAlpha = 1 - positionOffset + 0.3f;
-                    }
-
-                    if(currAlpha < 0.3){
-                        currAlpha = 0.6f - currAlpha;
-                    }
-
-                    if(moveAlpha > 1.0){
-                        moveAlpha = 1;
-                    }
-
-                    //更新当前项的透明度
-                    tabIcons.get(currentPosition).setAlpha(currAlpha);
-                    tabTexts.get(currentPosition).setAlpha(currAlpha);
-
-                    //更新将要滑动项的透明度
-                    ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
-                    TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
-                    moveView.setSelected(true);
-                    moveTextView.setSelected(true);
-
-                    moveView.setAlpha(moveAlpha);
-                    moveTextView.setAlpha(moveAlpha);
-                }
-
-            }  //当滑动一点点，就释放时调用
-            else if(ViewPager.SCROLL_STATE_SETTLING == scrollState){
-
-                if( 1 == leftRightIndex || -1 == leftRightIndex){
-
-                    tabIcons.get(currentPosition).setSelected(true);
-                    tabTexts.get(currentPosition).setSelected(true);
-                    tabIcons.get(currentPosition).setAlpha(1.0f);
-                    tabTexts.get(currentPosition).setAlpha(1.0f);
-
-                    tabIcons.get(currentPosition + leftRightIndex).setSelected(false);
-                    tabTexts.get(currentPosition + leftRightIndex).setSelected(false);
-                    tabIcons.get(currentPosition + leftRightIndex).setAlpha(1.0f);
-                    tabTexts.get(currentPosition + leftRightIndex).setAlpha(1.0f);
-                    //leftRightIndex = 0;
-//                    //解决快速滑动无法恢复选中
-//                    if(currentPosition != position){
-//                        isFirstCall = true;
+//        if(positionOffset > 0){
+//            //当为滑动状态时
+//            if(ViewPager.SCROLL_STATE_DRAGGING == scrollState){
+//                //如果用户向左向右滑动时，进行透明度改变
+//                if( 1 == leftRightIndex || -1 == leftRightIndex){
+//                    float currAlpha = 1 - positionOffset;
+//                    float moveAlpha = positionOffset + 0.3f;
+//
+//                    if(-1 == leftRightIndex){
+//                        currAlpha = positionOffset;
+//                        moveAlpha = 1 - positionOffset + 0.3f;
 //                    }
-                }
-            }
-        }
+//
+//                    if(currAlpha < 0.3){
+//                        currAlpha = 0.6f - currAlpha;
+//                    }
+//
+//                    if(moveAlpha > 1.0){
+//                        moveAlpha = 1;
+//                    }
+//
+//                    //更新当前项的透明度
+//                    tabIcons.get(currentPosition).setAlpha(currAlpha);
+//                    tabTexts.get(currentPosition).setAlpha(currAlpha);
+//
+//                    //更新将要滑动项的透明度
+//                    ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
+//                    TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
+//                    moveView.setSelected(true);
+//                    moveTextView.setSelected(true);
+//
+//                    moveView.setAlpha(moveAlpha);
+//                    moveTextView.setAlpha(moveAlpha);
+//                }
+//
+//            }  //当滑动一点点，就释放时调用
+//            else if(ViewPager.SCROLL_STATE_SETTLING == scrollState){
+//
+//                if( 1 == leftRightIndex || -1 == leftRightIndex){
+//
+//                    tabIcons.get(currentPosition).setSelected(true);
+//                    tabTexts.get(currentPosition).setSelected(true);
+//                    tabIcons.get(currentPosition).setAlpha(1.0f);
+//                    tabTexts.get(currentPosition).setAlpha(1.0f);
+//
+//                    tabIcons.get(currentPosition + leftRightIndex).setSelected(false);
+//                    tabTexts.get(currentPosition + leftRightIndex).setSelected(false);
+//                    tabIcons.get(currentPosition + leftRightIndex).setAlpha(1.0f);
+//                    tabTexts.get(currentPosition + leftRightIndex).setAlpha(1.0f);
+//                    //leftRightIndex = 0;
+////                    //解决快速滑动无法恢复选中
+////                    if(currentPosition != position){
+////                        isFirstCall = true;
+////                    }
+//                }
+//            }
+//        } if(positionOffset > 0){
+//            //当为滑动状态时
+//            if(ViewPager.SCROLL_STATE_DRAGGING == scrollState){
+//                //如果用户向左向右滑动时，进行透明度改变
+//                if( 1 == leftRightIndex || -1 == leftRightIndex){
+//                    float currAlpha = 1 - positionOffset;
+//                    float moveAlpha = positionOffset + 0.3f;
+//
+//                    if(-1 == leftRightIndex){
+//                        currAlpha = positionOffset;
+//                        moveAlpha = 1 - positionOffset + 0.3f;
+//                    }
+//
+//                    if(currAlpha < 0.3){
+//                        currAlpha = 0.6f - currAlpha;
+//                    }
+//
+//                    if(moveAlpha > 1.0){
+//                        moveAlpha = 1;
+//                    }
+//
+//                    //更新当前项的透明度
+//                    tabIcons.get(currentPosition).setAlpha(currAlpha);
+//                    tabTexts.get(currentPosition).setAlpha(currAlpha);
+//
+//                    //更新将要滑动项的透明度
+//                    ImageView moveView = tabIcons.get(currentPosition + leftRightIndex);
+//                    TextView moveTextView = tabTexts.get(currentPosition + leftRightIndex);
+//                    moveView.setSelected(true);
+//                    moveTextView.setSelected(true);
+//
+//                    moveView.setAlpha(moveAlpha);
+//                    moveTextView.setAlpha(moveAlpha);
+//                }
+//
+//            }  //当滑动一点点，就释放时调用
+//            else if(ViewPager.SCROLL_STATE_SETTLING == scrollState){
+//
+//                if( 1 == leftRightIndex || -1 == leftRightIndex){
+//
+//                    tabIcons.get(currentPosition).setSelected(true);
+//                    tabTexts.get(currentPosition).setSelected(true);
+//                    tabIcons.get(currentPosition).setAlpha(1.0f);
+//                    tabTexts.get(currentPosition).setAlpha(1.0f);
+//
+//                    tabIcons.get(currentPosition + leftRightIndex).setSelected(false);
+//                    tabTexts.get(currentPosition + leftRightIndex).setSelected(false);
+//                    tabIcons.get(currentPosition + leftRightIndex).setAlpha(1.0f);
+//                    tabTexts.get(currentPosition + leftRightIndex).setAlpha(1.0f);
+//                    //leftRightIndex = 0;
+////                    //解决快速滑动无法恢复选中
+////                    if(currentPosition != position){
+////                        isFirstCall = true;
+////                    }
+//                }
+//            }
+//        }
 
     }
 

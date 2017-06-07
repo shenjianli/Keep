@@ -13,6 +13,7 @@
         keep:right_button_drawable="@drawable/title_right_menu_icon"
         keep:title_background_color="@color/colorThird"
         keep:right_button_visible="false"
+        keep:left_button_visible="false"
         keep:title_text="历史信息" />
 
     <android.support.v4.widget.SwipeRefreshLayout
